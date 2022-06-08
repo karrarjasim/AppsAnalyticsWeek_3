@@ -6,7 +6,7 @@ import java.util.Date
 import kotlin.math.pow
 
 fun String.convertToByte(): BigDecimal?{
-    if (this!= null) {
+    if (this.isNotEmpty()) {
         return when(this[this.lastIndex].uppercaseChar()) {
             'K' ->  (this.uppercase().replace("K","").toDouble() *Constant.KILO_BYTE).toBigDecimal()
             'M' -> (this.uppercase().replace("M","").toDouble() *Constant.KILO_BYTE.pow(2)).toBigDecimal()
