@@ -18,8 +18,7 @@ fun String.convertToByte(): BigDecimal?{
 }
 
 /**
- * @param this is a input date of string
- * @return a date after convert from string
+ * Convert the string as an [Date] and returns the result.
  * */
 fun String.convertToDate(): Date{
     return  SimpleDateFormat(Constant.DATE_FORMAT).parse(this)
