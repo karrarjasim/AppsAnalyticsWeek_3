@@ -4,7 +4,8 @@ import utilities.Converter
 
 fun main() {
     val converter=Converter()
-    val apps = DataParser(Constant.FILE_NAME,converter).getAllApps()
+    val dataParser = DataParser(Constant.FILE_NAME,converter)
+    val apps=dataParser.getAllApps()
     val analyzer = Analyzer(converter)
 
 

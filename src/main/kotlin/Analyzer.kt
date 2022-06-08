@@ -3,7 +3,7 @@ import utilities.Converter
 import utilities.convertToByte
 import java.math.BigDecimal
 
-class Analyzer (val converter:Converter) {
+class Analyzer (private val converter:Converter) {
 
 
     fun findNumberOfAppsByCompanyName(apps: List<App>, companyName: String): Int {
