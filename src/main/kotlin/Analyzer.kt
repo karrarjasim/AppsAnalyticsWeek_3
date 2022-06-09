@@ -15,10 +15,10 @@ class Analyzer (private val converter:Converter) {
     }
 
     fun findOldestApp(apps: List<App>): App? {
-        if (apps.isEmpty()) {
-            return null
+        apps.let {
+            if(it.isEmpty()) return null
+            return it.minByOrNull {it.updatedDate}
         }
-        return apps.minByOrNull { it.updatedDate }
     }
 
 
