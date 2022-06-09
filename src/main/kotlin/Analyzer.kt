@@ -65,14 +65,18 @@ class Analyzer (private val converter:Converter) {
         return null
     }
 
-    fun topNAppInstall(apps: List<App>, numberOfApps: Int): List<App>? =
-         apps.let {
-            if (numberOfApps < 0) return null
-              return  it.asSequence()
+    fun topNAppInstall(apps: List<App>, numberOfApps: Int): List<App>? {
+        apps.let {
+            if(it.isEmpty() || numberOfApps <= 0) return null
+            return  it.asSequence()
                 .sortedByDescending { dataSorted -> dataSorted.installs }
                 .take(numberOfApps)
                 .toList()
         }
+
+    }
+
+
 
     fun getLargestAppsSizeByCompanyName(apps: List<App>, companyName: String, numberOfApps: Int): List<App>? {
         if (apps.isEmpty() || companyName.isEmpty() || companyName.isBlank()) {
