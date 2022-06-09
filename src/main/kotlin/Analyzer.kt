@@ -22,11 +22,14 @@ class Analyzer (private val converter:Converter) {
     }
 
 
-    fun getPercentageAppsRunningOnSpecificVersion(apps: List<App>, version: Double): Double =
-        converter.calculatePercentage(
-            apps.count { it.requiresAndroid != null && it.requiresAndroid == version },
-            apps.size
-        )
+    fun getPercentageAppsRunningOnSpecificVersion(apps: List<App>, version: Double): Double {
+        converter.apply {
+            return calculatePercentage(
+                apps.count { it.requiresAndroid != null && it.requiresAndroid == version },
+                apps.size
+            )
+        }
+    }
 
     fun getPercentageOfCategory(apps: List<App>, categoryName: String): Double {
         if (apps.isNotEmpty() && categoryName.isNotEmpty()) {
