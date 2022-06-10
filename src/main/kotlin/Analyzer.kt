@@ -6,12 +6,17 @@ import java.math.BigDecimal
 class Analyzer (val converter:Converter) {
 
 
+
+
+
+
     fun findNumberOfAppsByCompanyName(apps: List<App>, companyName: String): Int {
-        return if (apps.isNotEmpty() && companyName.isNotEmpty()) {
-            apps.count { it.company.contains(companyName.trim(), true) }
-        } else {
-            return -1
-        }
+        apps.let {
+            return if (it.isNotEmpty() && companyName.isNotEmpty()) {
+                it.count { it.company.contains(companyName.trim(), true) }
+            } else {
+                return -1
+            } }
     }
 
     fun findOldestApp(apps: List<App>): App? {
