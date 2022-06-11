@@ -34,13 +34,14 @@ class Analyzer (private val converter:Converter) {
     fun getPercentageOfCategory(apps: List<App>, categoryName: String): Double {
 
         apps.let { it ->
-            if (it.isNotEmpty() && categoryName.isNotEmpty())
+            if (it.isNotEmpty() && categoryName.isNotEmpty()) {
                 converter.apply {
                     return calculatePercentage(
                         it.count { it.category.contains(categoryName.trim(), true) },
                         it.size
                     )
                 }
+            }
         }
         return -1.0
     }
