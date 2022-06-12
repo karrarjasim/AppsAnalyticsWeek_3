@@ -50,24 +50,10 @@ class Analyzer (private val converter:Converter) {
     fun getLargestApp(apps: List<App>, size: Int): List<App>? {
         apps.let {
             if (it.isNotEmpty() && size <= it.size) {
-                val list = mutableMapOf<App, BigDecimal>()
-
-                it.filterNot { it.size.contains("Varies", true) }
-                    .apply {
-                        onEach {
-
-
-                            val value = (it.size).convertToByte()
-
-                            if (value != null) {
-                                list[it] = value
-                            }
-                        }
+                return it.sortedByDescending { it -> it.size.convertToByte() }.take(size)
                     }
-                return list.toList().sortedByDescending { (_, value) -> value }.toMap()
-                    .keys.map { it -> it }.toList().take(size)
-            }
-            return null }
+            return null
+        }
     }
 
     fun topNAppInstall(apps: List<App>, numberOfApps: Int): List<App>? {
