@@ -15,6 +15,8 @@ repositories {
 dependencies {
     implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
+    implementation("org.json:json:20220320")
+
 }
 
 tasks.test {

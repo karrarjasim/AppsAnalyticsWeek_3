@@ -6,26 +6,11 @@ import java.util.Date
 import kotlin.math.pow
 
 fun String.convertToByte(): BigDecimal?{
-    var result = ""
-    for (c in this){
-        result += if (c.isDigit())
-            c
-        else if ( c == '.' && !result.contains(".")) {
-            c
-        } else {
-            if ( c == '.' && result.contains("."))
-                return null
-            else {
-                break
-            }
-        }
-    }
-    val value = result.toDoubleOrNull()
-    if (value!= null) {
-        return when(this[this.lastIndex]) {
-            'K','k' ->  (value*Constant.KILO_BYTE).toBigDecimal()
-            'M','m' -> (value*Constant.KILO_BYTE.pow(2)).toBigDecimal()
-            'G','g' -> (value*Constant.KILO_BYTE.pow(3)).toBigDecimal()
+    if (this.isNotEmpty()) {
+        return when(this[this.lastIndex].uppercaseChar()) {
+            'K' ->  (this.uppercase().replace("K","").toDouble() *Constant.KILO_BYTE).toBigDecimal()
+            'M' -> (this.uppercase().replace("M","").toDouble() *Constant.KILO_BYTE.pow(2)).toBigDecimal()
+            'G' -> (this.uppercase().replace("G","").toDouble() *Constant.KILO_BYTE.pow(3)).toBigDecimal()
             else -> null
         }
     }
@@ -33,8 +18,7 @@ fun String.convertToByte(): BigDecimal?{
 }
 
 /**
- * @param this is a input date of string
- * @return a date after convert from string
+ * Convert the string as an [Date] and returns the result.
  * */
 fun String.convertToDate(): Date{
     return  SimpleDateFormat(Constant.DATE_FORMAT).parse(this)

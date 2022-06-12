@@ -1,6 +1,7 @@
 package utilities
 
 import model.App
+import org.json.JSONObject
 
 
 class Converter {
@@ -21,6 +22,19 @@ class Converter {
             installs = mList[Constant.ColumnIndex.INSTALLS].toLong(),
             currentVersion = mList[Constant.ColumnIndex.CURRENT_VERSION],
             requiresAndroid = convertToDouble(mList[Constant.ColumnIndex.REQUIRED_ANDROID])
+        )
+
+    }
+    fun  convertJsonToApp(jsonObject: JSONObject):App{
+        return App(
+            appName = jsonObject.getString(Constant.JsonKey.APP_NAME_KEY),
+            company = jsonObject.getString(Constant.JsonKey.COMPANY_KEY),
+            category = jsonObject.getString(Constant.JsonKey.CATEGORY_KEY),
+            updatedDate =jsonObject.getString(Constant.JsonKey.UPDATE_DATE_KEY).convertToDate(),
+            size = jsonObject.getString(Constant.JsonKey.SIZE_KEY),
+            installs = jsonObject.getLong(Constant.JsonKey.INSTALLS_KEY),
+            currentVersion = jsonObject.get(Constant.JsonKey.CURRENT_VERSION_KEY).toString(),
+            requiresAndroid = convertToDouble(jsonObject.getString(Constant.JsonKey.REQUIRED_ANDROID_KEY))
         )
     }
 

@@ -6,7 +6,7 @@ import utilities.*
 
 import java.io.File
 
-class DataParser(private val fileName: String,private  val  converter: Converter): DataSource {
+class CSVParser(private val fileName: String, private  val  converter: Converter): DataSource {
 
     override
     fun getAllApps(): List<App> {

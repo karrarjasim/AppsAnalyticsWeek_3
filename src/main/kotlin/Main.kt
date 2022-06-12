@@ -1,10 +1,12 @@
-import parser.DataParser
+import parser.JsonParser
 import utilities.Constant
 import utilities.Converter
 
 fun main() {
     val converter=Converter()
-    val apps = DataParser(Constant.FILE_NAME,converter).getAllApps()
+    val csvParser = JsonParser(Constant.CSV_FILE_NAME,converter)
+    val jsonParser = JsonParser(Constant.JSON_FILE_NAME,converter)
+    val apps= jsonParser.getAllApps()
     val analyzer = Analyzer(converter)
 
 

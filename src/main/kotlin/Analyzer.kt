@@ -3,7 +3,7 @@ import utilities.Converter
 import utilities.convertToByte
 import java.math.BigDecimal
 
-class Analyzer (val converter:Converter) {
+class Analyzer (private val converter:Converter) {
 
 
     fun findNumberOfAppsByCompanyName(apps: List<App>, companyName: String): Int {
@@ -15,68 +15,66 @@ class Analyzer (val converter:Converter) {
     }
 
     fun findOldestApp(apps: List<App>): App? {
-        if (apps.isEmpty()) {
-            return null
+        apps.let {
+            if(it.isEmpty()) return null
+            return it.minByOrNull {it.updatedDate}
         }
-        return apps.minByOrNull { it.updatedDate }
     }
 
 
-    fun getPercentageAppsRunningOnSpecificVersion(apps: List<App>, version: Double): Double =
-        converter.calculatePercentage(
-            apps.count { it.requiresAndroid != null && it.requiresAndroid == version },
-            apps.size
-        )
-
-    fun getPercentageOfCategory(apps: List<App>, categoryName: String): Double {
-        if (apps.isNotEmpty() && categoryName.isNotEmpty()) {
-            return converter.calculatePercentage(
-                apps.count { it.category.contains(categoryName.trim(), true) },
+    fun getPercentageAppsRunningOnSpecificVersion(apps: List<App>, version: Double): Double {
+        converter.apply {
+            return calculatePercentage(
+                apps.count { it.requiresAndroid != null && it.requiresAndroid == version },
                 apps.size
             )
         }
-        return -1.0
+    }
 
+    fun getPercentageOfCategory(apps: List<App>, categoryName: String): Double {
+
+        apps.let { it ->
+            if (it.isNotEmpty() && categoryName.isNotEmpty()) {
+                converter.apply {
+                    return calculatePercentage(
+                        it.count { it.category.contains(categoryName.trim(), true) },
+                        it.size
+                    )
+                }
+            }
+        }
+        return -1.0
     }
 
 
     fun getLargestApp(apps: List<App>, size: Int): List<App>? {
-        if (apps.isNotEmpty() && size <= apps.size) {
-            val list = mutableMapOf<App, BigDecimal>()
-
-            apps.filterNot { it.size.contains("Varies", true) }
-                .apply {
-                    onEach {
-
-
-                        val value = (it.size).convertToByte()
-
-                        if (value != null) {
-                            list[it] = value
-                        }
+        apps.let {
+            if (it.isNotEmpty() && size <= it.size) {
+                return it.sortedByDescending { it -> it.size.convertToByte() }.take(size)
                     }
-                }
-            return list.toList().sortedByDescending { (_, value) -> value }.toMap()
-                .keys.map { it -> it }.toList().take(size)
+            return null
         }
-        return null
     }
 
     fun topNAppInstall(apps: List<App>, numberOfApps: Int): List<App>? {
-        if (apps.isNotEmpty() && numberOfApps > 0) {
-            return apps.asSequence()
+        apps.let {
+            if(it.isEmpty() || numberOfApps <= 0) return null
+            return  it.asSequence()
                 .sortedByDescending { dataSorted -> dataSorted.installs }
                 .take(numberOfApps)
                 .toList()
         }
-        return null
+
     }
 
+
+
     fun getLargestAppsSizeByCompanyName(apps: List<App>, companyName: String, numberOfApps: Int): List<App>? {
-        if (apps.isEmpty() || companyName.isEmpty() || companyName.isBlank()) {
+       apps.let {
+        if (it.isEmpty() || companyName.isEmpty() || companyName.isBlank()) {
             return null
         }
-        val list = apps.filter { it.company.lowercase().contains(companyName.lowercase()) }
+        val list = it.filter { it.company.lowercase().contains(companyName.lowercase()) }
         return getLargestApp(list, numberOfApps)
-    }
+    } }
 }
